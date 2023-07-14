@@ -1,7 +1,7 @@
 # Hello C Program
 
 ## Contents
-| Filename | Description |                                                                                   |
+| Filename | Description |
 | :--- | :--- |
 | hello.c | C source code for a simple hello Message Passing Interface (MPI) program. |
 | hello.qsub | Son of Grid Engine Job submission script detailing the number of processors and other details. |
