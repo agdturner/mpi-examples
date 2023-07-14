@@ -16,25 +16,29 @@ int main (int argc, char *argv[]) {
 
    MPI_Get_processor_name(name, &resultlen);   
 
+
    if (rank == 0) {
        //printf("Major %s rank %d\n", name, rank);
-       //MPI_SEND(BUF, COUNT, DATATYPE, DEST, TAG, COMM, IERROR)
-       MPI_Send(name, namesize, MPI_CHAR, 0, rank, MPI_COMM_WORLD);
-
-       int *rbuf;
-       rbuf = (int *)malloc(size*namesize*sizeof(MPI_CHAR));
-
-       //MPI_Gather( sendarray, 100, MPI_INT, rbuf, 100, MPI_INT, root, comm);
-       MPI_Gather(name, namesize, MPI_CHAR, rbuf, namesize, MPI_CHAR, rank, MPI_COMM_WORLD);
-
+       //int MPI_Recv(void *buf, int count, MPI_Datatype datatype, int source, int tag, MPI_Comm comm, MPI_Status *status)
        printf ("Major %s rank 0", name);
-       int i;
+       int i;   
        for (i=1 ; i<size ; i++) {
+           MPI_Recv(name, namesize, MPI_CHAR, int source, i, MPI_COMM_WORLD)
            printf ("Minor %s rank %d\n", name[i], i);
        }
+
+
+       //int *rbuf;
+       //rbuf = malloc(size*namesize*sizeof(MPI_CHAR));
+
+       //MPI_Gather( sendarray, 100, MPI_INT, rbuf, 100, MPI_INT, root, comm);
+       //MPI_Gather(name, namesize, MPI_CHAR, rbuf, namesize, MPI_CHAR, rank, MPI_COMM_WORLD);
+
    } else {
        //printf("Minor %s rank %d of size %d \n", name, rank, size);
+       //int MPI_Send(const void *buf, int count, MPI_Datatype datatype, int dest, int tag, MPI_Comm comm)
        MPI_Send(name, namesize, MPI_CHAR, 0, rank, MPI_COMM_WORLD);
+       //MPI_Send(name, resultlen, MPI_CHAR, 0, rank, MPI_COMM_WORLD);
    }
 
    MPI_Finalize();

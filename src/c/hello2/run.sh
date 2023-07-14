@@ -10,14 +10,14 @@ if [ "$#" -eq 2 ]; then
    echo "Copied all files to: "$cwd
    command="mpicc "$1" -O2 -xAVX -o "$1".o"
    echo "Compile using: " $command
-   `$command`
+   $($command)
    echo "Compiled using: " $command
    echo "Submitting job"
    command="qsub "$2
-   jobDetails=`$command`
+   jobDetails=$($command)
    echo "Job submitted"
    echo "Job details: "$jobDetails
-   jobID=`echo $jobDetails | awk '{print $3}'`
+   jobID=$(echo $jobDetails | awk '{print $3}')
    echo "To check status of the job run: qstat"
    echo "The file: "$dir"/"$qsubScript".o"$jobID" is to contain what was redirected from stdout from the job submission."
    echo "The file: "$dir"/"$qsubScript".e"$jobID" is to contain what was redirected from stderr from the job submission."
