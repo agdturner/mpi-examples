@@ -12,7 +12,7 @@
 - This is an example Message Passing Interface (MPI) program designed to be run on an HPC with a Son of Grid Engine Scheduler.
 - The program assumes that there is a /nobackup/ directory on the system that the user can write to.
 - To run the program, execute the following command at the command line:
-`./run.sh hello.c hello.qsub`
+`./run.sh hello2.c hello2.qsub`
 - Information and further instructions are then written to stdout.
 - A directory will be created in /nobackup/$USER (where $USER is your username) with the path appended to where these files are located. Exisitng files at this location may get overwritten.
 
