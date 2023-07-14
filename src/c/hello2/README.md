@@ -1,11 +1,6 @@
 # Hello2 C Program
 
 ## Contents
-| tretre | gfgdf |
-| :--- | :--- |
-| fdaggf | dfsdf |
-| dsadsa | fasdfdsafdsafgdsafgdsagdfsagafsgafdgfagfadgfgfgggggffgffgagagfgdfgafdhdagfgbkafjdjdhjdkhjdkghjkghhdfdjk|
-
 | Filename | Description |
 | :--- | :--- |
 | hello2.c | C source code for a simple hello Message Passing Interface (MPI) program. |
