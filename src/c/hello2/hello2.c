@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <mpi.h>
 
 int main (int argc, char *argv[]) {
@@ -22,7 +23,7 @@ int main (int argc, char *argv[]) {
        MPI_Send(name, namesize, MPI_CHAR, 0, rank, MPI_COMM_WORLD);
 
        int *rbuf;
-       rbuf = (int *)malloc(size*namesize*sizeof(MPI_CHAR));
+       rbuf = malloc(size*namesize*sizeof(MPI_CHAR));
 
        //MPI_Gather( sendarray, 100, MPI_INT, rbuf, 100, MPI_INT, root, comm);
        MPI_Gather(name, namesize, MPI_CHAR, rbuf, namesize, MPI_CHAR, rank, MPI_COMM_WORLD);
@@ -38,4 +39,6 @@ int main (int argc, char *argv[]) {
    }
 
    MPI_Finalize();
+
+   return 0;
 }
