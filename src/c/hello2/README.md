@@ -1,9 +1,9 @@
 # Hello2 C Program
 
 ## Contents
-| tretre|gfgdf|
-| ------|-----|
-| fdaggf|dfsdf|
+| tretre | gfgdf |
+| ------ | ----- |
+| fdaggf | dfsdf |
 
 
 | Filename | Description |                                                                                   |
