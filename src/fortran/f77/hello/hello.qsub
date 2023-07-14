@@ -12,4 +12,4 @@
 # Request 2 minutes runtime (HH:MM:SS)
 #$ -l h_rt=00:02:00
 #
-mpirun ./hello.f.o > data/output/$JOB_ID.txt
+mpirun ./hello > data/output/$JOB_ID.txt

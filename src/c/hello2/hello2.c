@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <mpi.h>
 
 int main (int argc, char *argv[]) {
@@ -7,6 +8,8 @@ int main (int argc, char *argv[]) {
    int resultlen;
    int namesize = MPI_MAX_PROCESSOR_NAME;
    char name[namesize];
+   char namer[namesize];
+   MPI_Status status;
 
    MPI_Init(&argc, &argv);
 
@@ -14,17 +17,17 @@ int main (int argc, char *argv[]) {
 
    MPI_Comm_size(MPI_COMM_WORLD, &size);
 
-   MPI_Get_processor_name(name, &resultlen);   
+   MPI_Get_processor_name(name, &resultlen);
 
 
    if (rank == 0) {
        //printf("Major %s rank %d\n", name, rank);
        //int MPI_Recv(void *buf, int count, MPI_Datatype datatype, int source, int tag, MPI_Comm comm, MPI_Status *status)
-       printf ("Major %s rank 0", name);
+       printf ("Major %s rank 0\n", name);
        int i;   
        for (i=1 ; i<size ; i++) {
-           MPI_Recv(name, namesize, MPI_CHAR, int source, i, MPI_COMM_WORLD)
-           printf ("Minor %s rank %d\n", name[i], i);
+           MPI_Recv(&namer, namesize, MPI_CHAR, i, i, MPI_COMM_WORLD, &status);
+           printf ("Minor %s rank %d\n", namer, i);
        }
 
 
@@ -37,9 +40,11 @@ int main (int argc, char *argv[]) {
    } else {
        //printf("Minor %s rank %d of size %d \n", name, rank, size);
        //int MPI_Send(const void *buf, int count, MPI_Datatype datatype, int dest, int tag, MPI_Comm comm)
-       MPI_Send(name, namesize, MPI_CHAR, 0, rank, MPI_COMM_WORLD);
+       MPI_Ssend(name, namesize, MPI_CHAR, 0, rank, MPI_COMM_WORLD);
        //MPI_Send(name, resultlen, MPI_CHAR, 0, rank, MPI_COMM_WORLD);
    }
 
    MPI_Finalize();
+
+   return 0;
 }
