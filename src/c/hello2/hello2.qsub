@@ -1,0 +1,15 @@
+# Job submission script
+#
+# Submit to SGE scheduler using:
+# qsub
+#
+# Use current working directory and environment
+#$ -cwd -V
+#
+# Request 4 processors
+#$ -pe ib 4
+#
+# Request 2 minutes runtime (HH:MM:SS)
+#$ -l h_rt=00:02:00
+#
+mpirun ./hello2.c.o > data/output/$JOB_ID.txt
