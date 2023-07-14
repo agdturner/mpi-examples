@@ -2,7 +2,7 @@
 
 ## Contents
 | tretre | gfgdf |
-| ------ | ----- |
+| :--- | :--- |
 | fdaggf | dfsdf |
 
 
