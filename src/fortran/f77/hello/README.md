@@ -1,7 +1,7 @@
 # Hello Fortran F77 Program
 
 ## Contents
-| Filename | Description |                                                                                   |
+| Filename | Description |
 | :--- | :--- |
 | hello.f | Fortran 77 source code for a simple hello Message Passing Interface (MPI) program. |
 | hello.qsub | Son of Grid Engine Job submission script detailing the number of processors and other details. |
