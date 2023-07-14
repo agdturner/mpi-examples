@@ -1,10 +1,10 @@
-# Hello C Program
+# Hello2 C Program
 
 ## Contents
 | Filename | Description |                                                                                   |
 | :--- | :--- |
-| hello.c | C source code for a simple hello Message Passing Interface (MPI) program. |
-| hello.qsub | Son of Grid Engine Job submission script detailing the number of processors and other details. |
+| hello2.c | C source code for a simple hello Message Passing Interface (MPI) program. |
+| hello2.qsub | Son of Grid Engine Job submission script detailing the number of processors and other details. |
 | README.txt | This file. |
 | run.sh | A bash shell script to stage, compile and run the program. |
 
