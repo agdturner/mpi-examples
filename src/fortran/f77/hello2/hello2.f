@@ -1,41 +1,56 @@
-      PROGRAM HELLO2
+       PROGRAM HELLO2
 
-c     A simple MPI program for testing.
+c      A simple MPI program for testing.
  
-      IMPLICIT NONE
+       IMPLICIT NONE
 
-      INCLUDE 'mpif.h'
+       INCLUDE 'mpif.h'
 
-      INTEGER IERROR
-      INTEGER RANK
-      INTEGER SIZE
-      INTEGER RESULTLEN
-      CHARACTER*(MPI_MAX_PROCESSOR_NAME) NAME
-c      CHARACTER*(32) NAME
-      CHARACTER*(MPI_MAX_PROCESSOR_NAME) NAMER
-c      CHARACTER*(32) NAMER
-      INTEGER I
+       INTEGER IERROR
+       INTEGER RANK
+       INTEGER SIZE
+       INTEGER RESULTLEN
+       CHARACTER*(MPI_MAX_PROCESSOR_NAME) NAME
+c       CHARACTER*(32) NAME
+       CHARACTER*(MPI_MAX_PROCESSOR_NAME) NAMER
+c       CHARACTER*(32) NAMER
+       INTEGER I
+       INTEGER TAG
+       INTEGER STATUS(MPI_STATUS_SIZE)
 
-      CALL MPI_INIT(IERROR)
+       CALL MPI_INIT(IERROR)
 
-      CALL MPI_COMM_RANK(MPI_COMM_WORLD, RANK, IERROR)
+       CALL MPI_COMM_RANK(MPI_COMM_WORLD, RANK, IERROR)
 
-      CALL MPI_COMM_SIZE(MPI_COMM_WORLD, SIZE, IERROR)
+       CALL MPI_COMM_SIZE(MPI_COMM_WORLD, SIZE, IERROR)
 
-      CALL MPI_GET_PROCESSOR_NAME(NAME, RESULTLEN, IERROR)
-      
-      IF (RANK == 0) THEN      
-      WRITE (*,*) 'Major Rank ', RANK, 'Size ', SIZE, 'Name ', NAME
-      DO 10 I = 1, SIZE - 1
-      CALL MPI_RECV(NAMER, MPI_MAX_PROCESSOR_NAME, MPI_CHAR,
-        0, RANK, MPI_COMM_WORLD, IERROR)
-      WRITE (*,*) 'Minor Rank ', RANK, 'Name ', NAME
-  10  CONTINUE
-      ELSE
-c      WRITE (*,*) 'Minor Rank ', RANK, 'Name ', NAME
-      CALL MPI_SSEND(NAME, MPI_MAX_PROCESSOR_NAME, MPI_CHAR, 0,
-        RANK, MPI_COMM_WORLD, IERROR)
-      ENDIF
+       CALL MPI_GET_PROCESSOR_NAME(NAME, RESULTLEN, IERROR)
+
+       IF (RANK == 0) THEN      
+        WRITE (*,*) 'Major Rank ', RANK, 'Size ', SIZE,
+     +   'Name ', NAME
+        DO 10 I = 1, SIZE - 1
+         WRITE (*,*) 'Loop', I
+c      ---
+c      MPI_RECV(BUF, COUNT, DATATYPE, SOURCE, TAG, COMM, STATUS, IERROR)
+c       <type>    BUF(*)
+c       INTEGER    COUNT, DATATYPE, SOURCE, TAG, COMM
+c       INTEGER    STATUS(MPI_STATUS_SIZE), IERROR
+c      ---
+         CALL MPI_RECV(NAMER, MPI_MAX_PROCESSOR_NAME, MPI_CHAR, I,
+     +    TAG, MPI_COMM_WORLD, STATUS, IERROR)
+         WRITE (*,*) 'Minor Rank ', I, 'Name ', NAMER
+ 10     ENDDO
+       ELSE
+c       WRITE (*,*) 'Minor Rank ', RANK, 'Name ', NAME
+c      ---
+c      MPI_SSEND(BUF, COUNT, DATATYPE, DEST, TAG, COMM, IERROR)
+c       <type>    BUF(*)
+c       INTEGER    COUNT, DATATYPE, DEST, TAG, COMM, IERROR
+c      ---
+        CALL MPI_SSEND(NAME, MPI_MAX_PROCESSOR_NAME, MPI_CHAR, 0,
+     +   RANK, MPI_COMM_WORLD, IERROR)
+       ENDIF
 
       CALL MPI_FINALIZE(IERROR)
 
