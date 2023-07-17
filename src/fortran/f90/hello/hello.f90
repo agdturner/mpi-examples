@@ -22,10 +22,9 @@ c      CHARACTER*(32) NAME
       CALL MPI_GET_PROCESSOR_NAME(NAME, RESULTLEN, IERROR)
       
       IF (rank == 0) THEN
-       WRITE (*,*) 'Major ', NAME(1:RESULTLEN), ', rank ', RANK,
-     +  'Size ', SIZE, '.'
+          WRITE (*,*) 'Major Rank ', RANK, 'Size ', SIZE, 'Name ', NAME
       ELSE
-       WRITE (*,*) 'Minor ', NAME(1:RESULTLEN), ', rank ', RANK, '.'
+          WRITE (*,*) 'Minor Rank ', RANK, 'Name ', NAME
       ENDIF
 
       CALL MPI_FINALIZE(IERROR)

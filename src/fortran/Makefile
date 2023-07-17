@@ -4,7 +4,7 @@ EXE := $(shell basename $(PWD))
 OBJS := $(EXE).o
 $(info The executable is $(EXE), the objects are $(OBJS))
 
-CC=mpicc
+CC=mpifort
 CFLAGS=-O2 -xAVX
 
 $(EXE):$(OBJS)

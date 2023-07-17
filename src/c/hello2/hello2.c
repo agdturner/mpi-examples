@@ -21,27 +21,14 @@ int main (int argc, char *argv[]) {
 
 
    if (rank == 0) {
-       //printf("Major %s rank %d\n", name, rank);
-       //int MPI_Recv(void *buf, int count, MPI_Datatype datatype, int source, int tag, MPI_Comm comm, MPI_Status *status)
-       printf ("Major %s rank 0\n", name);
+       printf ("Major %s, rank 0, size %d.\n", name, size);
        int i;   
-       for (i=1 ; i<size ; i++) {
+       for (i=1; i<size; i++) {
            MPI_Recv(&namer, namesize, MPI_CHAR, i, i, MPI_COMM_WORLD, &status);
-           printf ("Minor %s rank %d\n", namer, i);
+           printf ("Minor %s rank %d.\n", namer, i);
        }
-
-
-       //int *rbuf;
-       //rbuf = malloc(size*namesize*sizeof(MPI_CHAR));
-
-       //MPI_Gather( sendarray, 100, MPI_INT, rbuf, 100, MPI_INT, root, comm);
-       //MPI_Gather(name, namesize, MPI_CHAR, rbuf, namesize, MPI_CHAR, rank, MPI_COMM_WORLD);
-
    } else {
-       //printf("Minor %s rank %d of size %d \n", name, rank, size);
-       //int MPI_Send(const void *buf, int count, MPI_Datatype datatype, int dest, int tag, MPI_Comm comm)
        MPI_Ssend(name, namesize, MPI_CHAR, 0, rank, MPI_COMM_WORLD);
-       //MPI_Send(name, resultlen, MPI_CHAR, 0, rank, MPI_COMM_WORLD);
    }
 
    MPI_Finalize();
