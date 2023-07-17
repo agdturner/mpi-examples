@@ -79,6 +79,8 @@
                         <arg>-Xlint:all,-options,-path</arg>
                     </compilerArgs>
                     <release>13</release>
+                    <source>13</source>
+                    <target>13</target>
                 </configuration>
             </plugin>
             <plugin>
