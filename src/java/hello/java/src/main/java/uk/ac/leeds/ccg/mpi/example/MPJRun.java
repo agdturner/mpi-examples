@@ -15,6 +15,7 @@
  */
 package uk.ac.leeds.ccg.mpi.example;
 
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import mpi.MPIException;
@@ -51,6 +52,12 @@ public abstract class MPJRun {
      */
     public void initMPI(String[] args) {
         try {
+            Map<String, String> map = System.getenv();
+            String mpjHomeDir = map.get("MPJ_HOME");
+            System.out.println(mpjHomeDir);
+            for (String key : map.keySet()) {
+                System.out.println(key + ", " + map.get(key));
+            }
             MPI.Init(args);
         } catch (MPIException ex) {
             Logger.getLogger(MPJRun.class.getName()).log(Level.SEVERE, null, ex);
