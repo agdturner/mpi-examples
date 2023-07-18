@@ -15,22 +15,30 @@
  */
 package uk.ac.leeds.ccg.mpi.example;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+import uk.ac.leeds.ccg.io.IO_Utilities;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import mpi.MPI;
 
 /**
- * Example executable class where each minor rank sends their processor name to 
+ * Example executable class where each minor rank sends their processor name to
  * the major rank to print out.
- * 
+ *
  * @author Andy Turner
  */
 public class Run1 extends MPJRun {
 
     int tag;
-    
+
     /**
      * Create a new instance
      */
-    public Run1() {}
+    public Run1() {
+    }
 
     /**
      * @param args the command line arguments
@@ -46,44 +54,36 @@ public class Run1 extends MPJRun {
         String namer = "";
         int nameLength = 0;
         if (rank == 0) {
-            System.out.println("Major " + name + ", rank " + rank + ", size " + size + ".");
+            BufferedWriter bw = null;
+            try {
+                Path dir = Paths.get(System.getProperty("user.dir"));
+                Path f = IO_Utilities.createNewFile(dir, "java", "out");
+                bw = IO_Utilities.getBufferedWriter(f, false);
+                String s = "Major " + name + ", rank " + rank + ", size " + size + ".";
+                System.out.println(s);
+                bw.write(s);
+            } catch (IOException ex) {
+                Logger.getLogger(Run1.class.getName()).log(Level.SEVERE, null, ex);
+            }
             for (int source = 1; source < size; source++) {
+                MPI.COMM_WORLD.Recv(nameLength, 0, 1, MPI.INT, source, tag);
                 MPI.COMM_WORLD.Recv(
-                        nameLength,
-                        0,
-                        1,
-                        MPI.INT,
-                        source,
-                        tag);
-                MPI.COMM_WORLD.Recv(
-                        namer,
-                        0,
-                        nameLength,
-                        MPI.CHAR,
-                        source,
-                        tag);
-                System.out.println("Minor " + namer + ", rank " + source + ".");
+                        namer, 0, nameLength, MPI.CHAR, source, tag);
+                try {
+                    String s = "Minor " + namer + ", rank " + source + ".";
+                    System.out.println(s);
+                    bw.write(s);
+                } catch (IOException ex) {
+                    Logger.getLogger(Run1.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         } else {
-            System.out.println("Minor " + name + ", rank " + rank + ".");
+            //System.out.println("Minor " + name + ", rank " + rank + ".");
             for (int source = 1; source < size; source++) {
-                MPI.COMM_WORLD.Isend(
-                        name.length(),
-                        0,
-                        1,
-                        MPI.INT,
-                        0,
-                        tag);
-                MPI.COMM_WORLD.Isend(
-                        name,
-                        0,
-                        name.length(),
-                        MPI.CHAR,
-                        0,
-                        tag);
+                MPI.COMM_WORLD.Isend(name.length(), 0, 1, MPI.INT, 0, tag);
+                MPI.COMM_WORLD.Isend(name, 0, name.length(), MPI.CHAR, 0, tag);
             }
         }
-        finalizeMPI();
+        //finalizeMPI();
     }
-
 }
