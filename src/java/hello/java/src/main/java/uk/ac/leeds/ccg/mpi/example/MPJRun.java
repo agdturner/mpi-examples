@@ -15,6 +15,8 @@
  */
 package uk.ac.leeds.ccg.mpi.example;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import mpi.MPIException;
 import mpi.MPI;
 //import mpi.Request;
@@ -51,13 +53,16 @@ public abstract class MPJRun {
         try {
             MPI.Init(args);
         } catch (MPIException ex) {
-            System.err.println(ex.getLocalizedMessage());
+            Logger.getLogger(MPJRun.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (MPI.COMM_WORLD == null) {
+            Logger.getLogger(MPJRun.class.getName()).log(Level.SEVERE, "MPI.COMM_WORLD == null");
         }
         try {
             size = MPI.COMM_WORLD.Size();
             rank = MPI.COMM_WORLD.Rank();
         } catch (MPIException ex) {
-            System.err.println(ex.getLocalizedMessage());
+            Logger.getLogger(MPJRun.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -68,7 +73,7 @@ public abstract class MPJRun {
         try {
             MPI.Finalize();
         } catch (MPIException ex) {
-            System.err.println(ex.getLocalizedMessage());
+            Logger.getLogger(MPJRun.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
