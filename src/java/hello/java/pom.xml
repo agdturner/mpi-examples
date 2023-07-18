@@ -55,6 +55,12 @@
             <version>0.44</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>mpj</groupId>
+            <artifactId>mpjdev</artifactId>
+            <version>0.44</version>
+            <scope>provided</scope>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
