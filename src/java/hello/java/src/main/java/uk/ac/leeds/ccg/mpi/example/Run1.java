@@ -84,6 +84,6 @@ public class Run1 extends MPJRun {
                 MPI.COMM_WORLD.Isend(name, 0, name.length(), MPI.CHAR, 0, tag);
             }
         }
-        //finalizeMPI();
+        finalizeMPI();
     }
 }
