@@ -15,64 +15,87 @@
  */
 package uk.ac.leeds.ccg.mpi.example;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import mpi.MPIException;
 import mpi.MPI;
+import uk.ac.leeds.ccg.io.IO_Utilities;
 //import mpi.Request;
 //import mpi.Status;
 
 /**
  * A class to extend for using MPJ Express.
- * 
+ *
  * @author Andy Turner
  */
 public abstract class MPJRun {
+
+    BufferedWriter log = null;
 
     /**
      * For storing the number of processes
      */
     protected int size;
-	
+
     /**
      * For storing the rank of process
      */
     protected int rank;
 
     /**
-     * Default Constructor
+     * The name of the node/processor on which the rank is running.
+     */
+    protected String name;
+
+    /**
+     * Create a new instance.
      */
     public MPJRun() {
     }
 
     /**
-     * Initialize MPI Environment.
-     * @param args
+     * Create a new instance.
+     *
+     * @args The command line arguments.
      */
-    public void initMPI(String[] args) {
+    public MPJRun(String[] args) {
         try {
-            /*
+            MPI.Init(args);
+            size = MPI.COMM_WORLD.Size();
+            rank = MPI.COMM_WORLD.Rank();
+            name = MPI.Get_processor_name();
+        } catch (MPIException ex) {
+            Logger.getLogger(MPJRun.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        // Initialise log
+        try {
+            Path dir = Paths.get(System.getProperty("user.dir"));
+            Path f = IO_Utilities.createNewFile(dir, "java" + "rank", "out");
+            log = IO_Utilities.getBufferedWriter(f, false);
+            String s;
+            if (rank == 0) {
+                s = "Major " + name + ", rank " + rank + ", size " + size + ".";
+            } else {
+                s = "Minor " + name + ", rank " + rank + ".";
+            }
+            System.out.println(s);
+            log.write(s);
+        } catch (IOException ex) {
+            Logger.getLogger(Run1.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        /*
             Map<String, String> map = System.getenv();
             String mpjHomeDir = map.get("MPJ_HOME");
             System.out.println(mpjHomeDir);
             for (String key : map.keySet()) {
                 System.out.println(key + ", " + map.get(key));
             }
-            */
-            MPI.Init(args);
-        } catch (MPIException ex) {
-            Logger.getLogger(MPJRun.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        if (MPI.COMM_WORLD == null) {
-            Logger.getLogger(MPJRun.class.getName()).log(Level.SEVERE, "MPI.COMM_WORLD == null");
-        }
-        try {
-            size = MPI.COMM_WORLD.Size();
-            rank = MPI.COMM_WORLD.Rank();
-        } catch (MPIException ex) {
-            Logger.getLogger(MPJRun.class.getName()).log(Level.SEVERE, null, ex);
-        }
+         */
     }
 
     /**

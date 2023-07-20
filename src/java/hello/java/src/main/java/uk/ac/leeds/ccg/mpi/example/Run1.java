@@ -15,11 +15,7 @@
  */
 package uk.ac.leeds.ccg.mpi.example;
 
-import java.io.BufferedWriter;
 import java.io.IOException;
-import uk.ac.leeds.ccg.io.IO_Utilities;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import mpi.MPI;
@@ -48,23 +44,10 @@ public class Run1 extends MPJRun {
     }
 
     public void run(String[] args) {
-        initMPI(args);
         tag = 50;
-        String name = MPI.Get_processor_name();
         String namer = "";
         int nameLength = 0;
         if (rank == 0) {
-            BufferedWriter bw = null;
-            try {
-                Path dir = Paths.get(System.getProperty("user.dir"));
-                Path f = IO_Utilities.createNewFile(dir, "java", "out");
-                bw = IO_Utilities.getBufferedWriter(f, false);
-                String s = "Major " + name + ", rank " + rank + ", size " + size + ".";
-                System.out.println(s);
-                bw.write(s);
-            } catch (IOException ex) {
-                Logger.getLogger(Run1.class.getName()).log(Level.SEVERE, null, ex);
-            }
             for (int source = 1; source < size; source++) {
                 MPI.COMM_WORLD.Recv(nameLength, 0, 1, MPI.INT, source, tag);
                 MPI.COMM_WORLD.Recv(
@@ -72,7 +55,7 @@ public class Run1 extends MPJRun {
                 try {
                     String s = "Minor " + namer + ", rank " + source + ".";
                     System.out.println(s);
-                    bw.write(s);
+                    log.write(s);
                 } catch (IOException ex) {
                     Logger.getLogger(Run1.class.getName()).log(Level.SEVERE, null, ex);
                 }
