@@ -19,11 +19,10 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import mpi.MPIException;
 import mpi.MPI;
+import mpi.MPIException;
 import uk.ac.leeds.ccg.io.IO_Utilities;
 //import mpi.Request;
 //import mpi.Status;
@@ -61,7 +60,7 @@ public abstract class MPJRun {
     /**
      * Create a new instance.
      *
-     * @args The command line arguments.
+     * @param args The command line arguments.
      */
     public MPJRun(String[] args) {
         try {
