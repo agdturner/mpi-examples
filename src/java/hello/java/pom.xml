@@ -161,6 +161,8 @@
                             <mainClass>
                                 uk.ac.leeds.ccg.mpi.example.Run1
                             </mainClass>
+                            <source>13</source>
+                            <target>13</target>
                         </configuration>
                     </execution>
                 </executions>
