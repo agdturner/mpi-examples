@@ -145,10 +145,7 @@
                     </archive>
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>                    
-                    <source>13</source>
-                    <target>13</target>
-                    <release>13</release>
+                    </descriptorRefs>
                 </configuration>
             </plugin>
             <plugin>
@@ -165,9 +162,6 @@
                             <mainClass>
                                 uk.ac.leeds.ccg.mpi.example.Run1
                             </mainClass>
-                            <source>13</source>
-                            <target>13</target>
-                            <release>13</release>
                         </configuration>
                     </execution>
                 </executions>
@@ -200,6 +194,9 @@
                                 <arg>-verbose</arg>
                                 <arg>-Xlint:all,-options,-path</arg>
                             </compilerArgs>
+                    <source>13</source>
+                    <target>13</target>
+                    <release>13</release>
                         </configuration>
                     </plugin>
                     <plugin>
