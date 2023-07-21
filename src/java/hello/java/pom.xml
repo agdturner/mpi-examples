@@ -163,6 +163,7 @@
                             </mainClass>
                             <source>13</source>
                             <target>13</target>
+                            <release>13</release>
                         </configuration>
                     </execution>
                 </executions>
