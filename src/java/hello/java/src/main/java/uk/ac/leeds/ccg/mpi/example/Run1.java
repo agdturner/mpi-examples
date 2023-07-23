@@ -48,7 +48,7 @@ public class Run1 extends MPJRun {
         String namer = "";
         int nameLength = 0;
         if (rank == 0) {
-            System.out.println("Major " + name + ", rank " + rank + ".");
+            System.out.println("Major " + name + ", rank " + rank + ", size " + size + ".");
 /*          for (int source = 1; source < size; source++) {
                 MPI.COMM_WORLD.Recv(nameLength, 0, 1, MPI.INT, source, tag);
                 MPI.COMM_WORLD.Recv(
@@ -68,9 +68,10 @@ public class Run1 extends MPJRun {
                 MPI.COMM_WORLD.Isend(name.length(), 0, 1, MPI.INT, 0, tag);
                 MPI.COMM_WORLD.Isend(name, 0, name.length(), MPI.CHAR, 0, tag);
             }
-/*
+*/
         }
 //        MPI.COMM_WORLD.Barrier();
-        finalizeMPI();
+        //finalizeMPI();
+        MPI.Finalize();
     }
 }
