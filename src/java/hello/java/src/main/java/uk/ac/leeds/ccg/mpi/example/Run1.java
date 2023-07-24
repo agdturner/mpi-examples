@@ -46,29 +46,23 @@ public class Run1 extends MPJRun {
     public void run(String[] args) {
         tag = 50;
         String namer = "";
-        int nameLength = 0;
+        char[] test = null;
+        String name = MPI.Get_processor_name();
+        char[] chars = name.toCharArray();
+        int count[] = new int[1];
         if (rank == 0) {
             System.out.println("Major " + name + ", rank " + rank + ", size " + size + ".");
-/*          for (int source = 1; source < size; source++) {
-                MPI.COMM_WORLD.Recv(nameLength, 0, 1, MPI.INT, source, tag);
-                MPI.COMM_WORLD.Recv(
-                        namer, 0, nameLength, MPI.CHAR, source, tag);
-                try {
-                    String s = "Minor " + namer + ", rank " + source + ".";
-                    System.out.println(s);
-                    log.write(s);
-                } catch (IOException ex) {
-                    Logger.getLogger(Run1.class.getName()).log(Level.SEVERE, null, ex);
-                }
+            for (int source = 1; source < size; source++) {
+                MPI.COMM_WORLD.Recv(count, 0, 1, MPI.INT, source, source);
+                MPI.COMM_WORLD.Recv(chars, 0, count[0], MPI.CHAR, source, source + size);
+                String s = "Minor " + String.valueOf(chars) + ", rank " + source + ".";
+                System.out.println(s);
             }
-*/
         } else {
-            System.out.println("Minor " + name + ", rank " + rank + ".");
-/*          for (int source = 1; source < size; source++) {
-                MPI.COMM_WORLD.Isend(name.length(), 0, 1, MPI.INT, 0, tag);
-                MPI.COMM_WORLD.Isend(name, 0, name.length(), MPI.CHAR, 0, tag);
-            }
-*/
+            //System.out.println("Minor " + name + ", rank " + rank + ".");
+            count[0] = chars.length;
+            MPI.COMM_WORLD.Send(count, 0, 1, MPI.INT, 0, rank);
+            MPI.COMM_WORLD.Send(chars, 0, count[0], MPI.CHAR, 0, rank + size);
         }
 //        MPI.COMM_WORLD.Barrier();
         //finalizeMPI();
